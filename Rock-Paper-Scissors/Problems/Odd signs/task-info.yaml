@@ -1,0 +1,11 @@
+type: code
+files:
+- name: task.py
+  visible: true
+  text: |-
+    # here is your word
+    word = input()
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9152
+status: Solved
+record: -1
