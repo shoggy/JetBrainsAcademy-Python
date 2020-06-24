@@ -1,0 +1,16 @@
+type: code
+files:
+- name: task.py
+  visible: true
+  text: |-
+    def range_sum(numbers, a, b):
+        # ...
+
+
+    numbers =  # ...
+    a, b =  # ...
+    print(range_sum(numbers, a, b))
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7323
+status: Solved
+record: -1
