@@ -1,0 +1,18 @@
+type: code
+files:
+- name: task.py
+  visible: true
+  text: |-
+    age = "20"
+    if age < 18:
+        print("You can't watch Game of Thrones!")
+    else:
+        print("You are welcome to be here. Sit, have a drink and enjoy the show!")
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/6046
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/6046">JetBrains
+    Academy</a></html>
+  time: Tue, 30 Jun 2020 20:44:45 UTC
+record: -1
