@@ -1,0 +1,19 @@
+type: code
+files:
+- name: task.py
+  visible: true
+  text: |-
+    class Task:
+        def __init__(self, description, team):
+            self.description = description
+            self.team = team
+
+        # create the method
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7451
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/7451">JetBrains
+    Academy</a></html>
+  time: Tue, 14 Jul 2020 18:06:09 UTC
+record: -1
