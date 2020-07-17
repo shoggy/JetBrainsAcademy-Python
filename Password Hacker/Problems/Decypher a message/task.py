@@ -1,0 +1,5 @@
+s = input()
+k = int(input().strip())
+d = sum(k.to_bytes(2, byteorder="big"))
+decoded = ''.join(chr(ord(c) + d) for c in s)
+print(decoded)
