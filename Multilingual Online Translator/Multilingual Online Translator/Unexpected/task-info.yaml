@@ -47,9 +47,6 @@ files:
   text: |
     print('Hello, World!')
   learner_created: false
-- name: brrrrrrrrrrr.txt
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/99/stages/549/implement
 status: Solved
 feedback:

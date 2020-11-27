@@ -20,12 +20,14 @@
 <ul>
 	<li>If the user tries to transfer more money than he/she has, output: "Not enough money!"</li>
 	<li>If the user tries to transfer money to the same account, output the following message: “You can't transfer money to the same account!”</li>
-	<li>If the receiver's card number doesn’t pass the Luhn algorithm, you should output: “Probably you made mistake in the card number. Please try again!”</li>
+	<li>If the receiver's card number doesn’t pass the Luhn algorithm, you should output: “Probably you made a mistake in the card number. Please try again!”</li>
 	<li>If the receiver's card number doesn’t exist, you should output: “Such a card does not exist.”</li>
 	<li>If there is no error, ask the user how much money they want to transfer and make the transaction.</li>
 </ul>
 
-<p>If the user chooses the <code class="java">Close an account</code> item, you should delete that account from the database.</p>
+<p>If the user chooses the <code class="java">Close account</code> item, you should delete that account from the database.</p>
+
+<p><div class="alert alert-primary">Do not forget to commit your DB changes right after executing a query!</div></p>
 
 <h2>Examples</h2>
 
@@ -100,7 +102,7 @@ Balance: 10000
 Transfer
 Enter card number:
 &gt;4000003305160035
-Probably you made mistake in the card number. Please try again!
+Probably you made a mistake in the card number. Please try again!
 
 1. Balance
 2. Add income

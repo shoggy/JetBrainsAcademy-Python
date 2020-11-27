@@ -6,14 +6,19 @@ hyperskill_project:
 stages:
 - id: 452
   step: 7439
+  is_completed: true
 - id: 453
   step: 7440
+  is_completed: true
 - id: 454
   step: 7441
+  is_completed: true
 - id: 455
   step: 7442
+  is_completed: true
 - id: 456
   step: 7443
+  is_completed: true
 topics:
   0:
   - title: Introduction to Python
@@ -22,28 +27,20 @@ topics:
     theory_id: 5208
   - title: Multi-line programs
     theory_id: 5233
+  - title: Program execution
+    theory_id: 6047
   - title: PEP 8
     theory_id: 5879
   - title: Comments
     theory_id: 6081
   - title: Avoiding bad comments
     theory_id: 6440
-  - title: Basic data types
-    theory_id: 5852
-  - title: Quotes and multi-line strings
-    theory_id: 5814
-  - title: Variables
-    theory_id: 5859
-  - title: Integer arithmetic
-    theory_id: 5865
-  - title: Boolean logic
-    theory_id: 6025
-  - title: Type casting
-    theory_id: 6224
-  - title: Escape sequences
-    theory_id: 7130
   - title: Naming variables
     theory_id: 5885
+  - title: Taking input
+    theory_id: 5913
+  - title: Program with numbers
+    theory_id: 5872
   - title: List
     theory_id: 5979
   - title: Indexes
@@ -54,18 +51,6 @@ topics:
     theory_id: 5900
   - title: Scopes
     theory_id: 6322
-  - title: Taking input
-    theory_id: 5913
-  - title: Program with numbers
-    theory_id: 5872
-  - title: Program execution
-    theory_id: 6047
-  - title: Errors
-    theory_id: 6052
-  - title: Comparisons
-    theory_id: 5920
-  - title: Basic string methods
-    theory_id: 6842
   - title: If statement
     theory_id: 5953
   - title: Else statement
@@ -82,10 +67,30 @@ topics:
     theory_id: 6315
   - title: Nested lists
     theory_id: 6938
-  - title: Split and join
-    theory_id: 6972
+  - title: Errors
+    theory_id: 6052
   - title: Any and all
     theory_id: 7800
+  - title: Basic data types
+    theory_id: 5852
+  - title: Integer arithmetic
+    theory_id: 5865
+  - title: Quotes and multi-line strings
+    theory_id: 5814
+  - title: Escape sequences
+    theory_id: 7130
+  - title: Variables
+    theory_id: 5859
+  - title: Type casting
+    theory_id: 6224
+  - title: Boolean logic
+    theory_id: 6025
+  - title: Comparisons
+    theory_id: 5920
+  - title: Basic string methods
+    theory_id: 6842
+  - title: Split and join
+    theory_id: 6972
   1:
   - title: IDE
     theory_id: 3805
@@ -98,6 +103,8 @@ topics:
   2:
   - title: Introduction to OOP
     theory_id: 3614
+  - title: Immutability
+    theory_id: 7929
   - title: Computer programming
     theory_id: 8739
   - title: Intro to computational thinking
@@ -110,14 +117,16 @@ topics:
     theory_id: 7462
   - title: Arguments
     theory_id: 7248
-  - title: String formatting
-    theory_id: 6037
-  - title: Args
-    theory_id: 8560
+  - title: Operations with list
+    theory_id: 6031
   - title: Functional decomposition
     theory_id: 9571
   - title: Operations with dictionary
     theory_id: 9008
+  - title: Default arguments
+    theory_id: 10295
+  - title: Args
+    theory_id: 8560
   - title: Kwargs
     theory_id: 9544
   - title: Class
@@ -130,6 +139,12 @@ topics:
     theory_id: 6931
   - title: Methods and attributes
     theory_id: 6981
+  - title: String formatting
+    theory_id: 6037
+  - title: Identity testing
+    theory_id: 8077
+  - title: Objects in Python
+    theory_id: 9262
   3:
   - title: Inheritance
     theory_id: 9844
