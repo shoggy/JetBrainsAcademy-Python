@@ -76,5 +76,8 @@ files:
         Stage3Test('pagerank.pagerank').run_tests()
   learner_created: false
 feedback_link: https://hyperskill.org/projects/92/stages/512/implement
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 27 Nov 2020 15:55:48 UTC
 record: -1
