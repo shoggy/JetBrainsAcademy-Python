@@ -1,3 +1,4 @@
+import operator
 from io import StringIO
 
 import numpy as np
@@ -23,30 +24,30 @@ def pagerank(matrix: np.ndarray, d=1., prec=0.01) -> np.ndarray:
     return r
 
 
-L = np.array([
-    [0,   1/2, 1/3, 0, 0,   0],
-    [1/3, 0,   0,   0, 1/2, 0],
-    [1/3, 1/2, 0,   1, 0,   1/2],
-    [1/3, 0,   1/3, 0, 1/2, 1/2],
-    [0,   0,   0,   0, 0,   0],
-    [0,   0,   1/3, 0, 0,   0]
-])
+def query(sites: list, ranks: np.ndarray, query: str) -> list:
+    top_res = None
+    ranks = ranks.tolist()
+    if query in sites:
+        idx = sites.index(query)
+        sites.pop(idx)
+        ranks.pop(idx)
+        top_res = (query, )
+    site_list = list(zip(sites, ranks))
+    site_list = sorted(site_list, key=operator.itemgetter(1, 0), reverse=True)
+    if top_res is not None:
+        site_list.insert(0, top_res)
+    return site_list[:5]
 
-L2 = np.array([
-    [0,   1/2, 1/3, 0, 0,   0,   0],
-    [1/3, 0,   0,   0, 1/2, 0, 0],
-    [1/3, 1/2, 0,   1, 0,   1/3,   0],
-    [1/3, 0,   1/3, 0, 1/2, 1/3, 0],
-    [0,   0,   0,   0, 0,   0,   0],
-    [0,   0,   1/3, 0, 0,   0,   0],
-    [0,   0,   0,   0, 0,   1/3, 1]
-])
 
-input_line = input().split()
-n = int(input_line[0])
-d = float(input_line[1])
+n = int(input())
+d = 0.5
+sites = input().split()[:n]
 L3 = []
 for _ in range(n):
     L3.append([float(x) for x in input().split()])
 L3 = np.array(L3)
-print_matrix(pagerank(L3, d=d))
+ranks = pagerank(L3, d=d)
+query_str = input()
+
+for x in query(sites, ranks, query_str):
+    print(x[0])
