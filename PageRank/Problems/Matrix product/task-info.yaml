@@ -1,0 +1,13 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: import numpy as np
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10793#comment
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/10793#comment">JetBrains
+    Academy</a></html>
+  time: Fri, 20 Nov 2020 13:53:58 UTC
+record: -1

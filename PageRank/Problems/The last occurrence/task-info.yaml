@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def search(numbers, target):
+        pass
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7476#comment
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/7476#comment">JetBrains
+    Academy</a></html>
+  time: Fri, 20 Nov 2020 11:21:48 UTC
+record: -1
