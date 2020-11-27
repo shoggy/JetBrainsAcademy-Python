@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+
+    array = np.array([[[13, 14], [34, 35]], [[9, 9], [5, 0]]])
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10179
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/10179">JetBrains
+    Academy</a></html>
+  time: Thu, 10 Sep 2020 14:41:36 UTC
+record: -1

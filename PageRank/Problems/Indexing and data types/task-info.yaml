@@ -1,0 +1,19 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+    array = np.array([[0, 2, 1998],
+                      [12, 0, 1212],
+                      [21, 0, 0],
+                      [7, 0, 2019]])
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10100
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/10100">JetBrains
+    Academy</a></html>
+  time: Tue, 08 Sep 2020 18:02:52 UTC
+record: -1

@@ -1,0 +1,2 @@
+numpy==1.19.1
+https://github.com/hyperskill/hs-test-python/archive/release.tar.gz
