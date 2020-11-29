@@ -5,16 +5,20 @@ from random import randint
 import re
 
 
-def tokenize():
-    with open("corpus.txt", "r", encoding="utf-8") as f:
-        return f.read().split()
+def preprocess():
+    with open("test/corpus.txt", "r", encoding="utf-8") as f:
+        corpus = f.read().split()
+    res = list()
+    for i in range(len(corpus) - 1):
+        res.append((corpus[i], corpus[i + 1]))
+    return res
 
 
 class TextGeneratorTests(StageTest):
     def generate(self):
-        test_input1 = "corpus.txt\nexit\n"
-        test_input2 = "corpus.txt\n0\n1\n2\n-1\nten\n43256236577\nexit\n"
-        test_input3 = "corpus.txt\n" + "\n".join([str(randint(0, 300000)) for _ in range(10)]) + "\nexit\n"
+        test_input1 = "test/corpus.txt\nexit\n"
+        test_input2 = "test/corpus.txt\n0\n1\n2\n-1\nten\n43256236577\nexit\n"
+        test_input3 = "test/corpus.txt\n" + "\n".join([str(randint(0, 300000)) for _ in range(10)]) + "\nexit\n"
         return [
             TestCase(stdin=test_input1, attach=test_input1),
             TestCase(stdin=test_input2, attach=test_input2),
@@ -22,32 +26,22 @@ class TextGeneratorTests(StageTest):
         ]
 
     def check(self, reply, attach):
-        corpus = tokenize()
+        corpus = preprocess()
 
         # check output format
         if not reply:
             return CheckResult.wrong("The output cannot be empty! Make sure to output the results of your program!")
 
         lines = re.split("\n+", reply)
-        if len(lines) < 3:
-            return CheckResult.wrong("The output should consist of at least 3 lines!")
+        if len(lines) < 1:
+            return CheckResult.wrong("The output should consist of at least a line!")
 
-        stats, res = lines[0:3], lines[3:-1]
+        stats, res = lines[0:1], lines[1:-1]
 
         # check corpus statistics
         try:
-            if "Corpus statistics" not in stats[0]:
-                return CheckResult.wrong("The first line of the output should be a header called 'Corpus statistics'")
-            if (cres := int(stats[1].split()[-1])) != (clen := len(corpus)):
-                if cres > clen:
-                    return CheckResult.wrong("The number of outputted tokens is greater then the number of tokens in the corpus. You should tokenize the corpus by whitespaces and leave punctuation marks intact.")
-                else:
-                    return CheckResult.wrong("The number of outputted tokens is smaller then the number of tokens in the corpus. You should tokenize the corpus by whitespaces and leave punctuation marks intact.")
-            if (cres := int(stats[2].split()[-1])) != (clen := len(set(corpus))):
-                if cres > clen:
-                    return CheckResult.wrong("The number of outputted unique tokens is greater then the number of unique tokens in the corpus. Make sure that every unique token is counted only once.")
-                else:
-                    return CheckResult.wrong("The number of outputted unique tokens is smaller then the number of unique tokens in the corpus. Every unique token should be counted only once, but capitalization does matter.")
+            if int(stats[0].split()[-1]) != len(corpus):
+                return CheckResult.wrong("The number of tokens is incorrect. Make sure you tokenize it properly.")
         except IndexError:
             return CheckResult.wrong("Invalid format. Make sure 'Corpus statistics' is in a valid format.")
         except ValueError:
@@ -58,14 +52,16 @@ class TextGeneratorTests(StageTest):
         if len(seeds) != len(res):
             return CheckResult.wrong("The number of inputted seeds should match the number of outputted results from the corpus.")
 
-        # check every 'query'
         for j, elem in enumerate(seeds):
             try:
                 i = int(elem)
-                if corpus[i] != res[j]:
+                out_tokens = re.split(r"\s+", res[j])
+                if len(out_tokens) < 4:
+                    return CheckResult.wrong("The output should be in the following format: 'Head: [head] Tail: [tail]' or it should be an error message")
+                if corpus[i][0] != out_tokens[1] and corpus[i][1] != out_tokens[3]:
                     return CheckResult.wrong("Incorrect output ({0}). An other output ({1}) is expected at index {2}".format(res[i], corpus[i], i))
             except IndexError:
-                if ("Index Error" or "index error" or "Index error" or "indexerror" or "IndexError") not in res[j]:
+                if ("Index Error" or "index error" or "Index error" or "indexerror" or "IndexError")not in res[j]:
                     return CheckResult.wrong("Error messages should contain the types of errors (Index Error, Type Error, etc.)")
             except (ValueError, TypeError):
                 if ("Type Error" or "type error" or "Type error" or "typeerror" or "TypeError") not in res[j]:
