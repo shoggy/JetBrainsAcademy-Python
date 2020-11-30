@@ -1,9 +1,11 @@
 # Write your code here
-from nltk.tokenize import regexp_tokenize
-import nltk
-from collections import defaultdict
-from collections import Counter
 import random
+import re
+from collections import Counter
+from collections import defaultdict
+
+import nltk
+from nltk.tokenize import regexp_tokenize
 
 
 class Solution:
@@ -12,6 +14,7 @@ class Solution:
         self.token_list = self.read_corpus(filename)
         self.bigram_list = self.convert_to_bigrams()
         self.model = self.convert_to_markov_model()
+        self.first_token_list = self.generate_first_token_list()
 
     def read_corpus(self, filename: str):
         with open(filename, 'r', encoding='utf-8') as f:
@@ -39,8 +42,14 @@ class Solution:
             result[head][tail] += 1
         return result
 
-    def get_random_token(self):
-        return random.choice(self.token_list)
+    def generate_first_token_list(self):
+        return [x for x in self.token_list if re.match(r'[A-Z].*[^.!?]$', x) is not None]
+
+    def is_sentence_end_token(self, token: str):
+        return re.match(r'.*[.!?]$', token) is not None
+
+    def get_first_random_token(self):
+        return random.choice(self.first_token_list)
 
     def get_next_random_token(self, prev: str):
         most_common = self.model[prev].most_common()
@@ -48,10 +57,13 @@ class Solution:
         weights = [cnt for _, cnt in most_common]
         return random.choices(population, weights, k=1)[0]
 
-    def get_random_sentence(self, n: int):
-        word = self.get_random_token()
+    def get_random_sentence(self, at_least: int):
+        word = self.get_first_random_token()
         result = [word]
-        for _ in range(n - 1):
+        for _ in range(at_least - 1):
+            word = self.get_next_random_token(word)
+            result.append(word)
+        while not self.is_sentence_end_token(word):
             word = self.get_next_random_token(word)
             result.append(word)
         return ' '.join(result)
@@ -60,16 +72,5 @@ class Solution:
 filename = input()
 # filename = '../corpus.txt'
 sol = Solution(filename)
-# model = sol.model
-# while True:
-#     s = input().strip()
-#     if 'exit' == s:
-#         break
-#     print(f'Head: {s}')
-#     if s not in model:
-#         print('The requested word is not in the model. Please input another word.')
-#     else:
-#         for w, cnt in model[s].most_common():
-#             print(f'Tail: {w}\tCount: {cnt}')
 for _ in range(10):
-    print(sol.get_random_sentence(10))
+    print(sol.get_random_sentence(5))
