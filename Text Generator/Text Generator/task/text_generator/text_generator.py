@@ -4,7 +4,6 @@ import re
 from collections import Counter
 from collections import defaultdict
 
-import nltk
 from nltk.tokenize import regexp_tokenize
 
 
@@ -29,8 +28,8 @@ class Solution:
 
     def convert_to_bigrams(self):
         token_list = self.token_list
-        # return [b for b in zip(token_list[:-1], token_list[1:])]
-        return list(nltk.bigrams(token_list))
+        return [(f'{a} {b}', c) for a, b, c in zip(token_list[:-2], token_list[1:-1], token_list[2:])]
+        # return list(nltk.bigrams(token_list))
 
     def print_bigram_stastics(self):
         print(f'Number of bigrams: {len(self.bigram_list)}')
@@ -43,7 +42,7 @@ class Solution:
         return result
 
     def generate_first_token_list(self):
-        return [x for x in self.token_list if re.match(r'[A-Z].*[^.!?]$', x) is not None]
+        return [x for x, _ in self.bigram_list if re.match(r'[A-Z][^.!?]*\s.*', x) is not None]
 
     def is_sentence_end_token(self, token: str):
         return re.match(r'.*[.!?]$', token) is not None
@@ -57,15 +56,20 @@ class Solution:
         weights = [cnt for _, cnt in most_common]
         return random.choices(population, weights, k=1)[0]
 
-    def get_random_sentence(self, at_least: int):
-        word = self.get_first_random_token()
-        result = [word]
-        for _ in range(at_least - 1):
-            word = self.get_next_random_token(word)
-            result.append(word)
-        while not self.is_sentence_end_token(word):
-            word = self.get_next_random_token(word)
-            result.append(word)
+    def get_random_sentence(self, at_least: int) -> str:
+        first, second = self.get_first_random_token().split()
+        result = [first, second]
+        next_token = ''
+        for _ in range(at_least - 2):
+            next_token = self.get_next_random_token(f'{first} {second}')
+            first = second
+            second = next_token
+            result.append(second)
+        while not self.is_sentence_end_token(next_token):
+            next_token = self.get_next_random_token(f'{first} {second}')
+            first = second
+            second = next_token
+            result.append(second)
         return ' '.join(result)
 
 

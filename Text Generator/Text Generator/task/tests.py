@@ -1,6 +1,7 @@
 from hstest.stage_test import StageTest
 from hstest.test_case import TestCase
 from hstest.check_result import CheckResult
+import re
 
 
 def preprocess():
@@ -19,6 +20,7 @@ class TextGeneratorTests(StageTest):
     def check(self, reply, attach):
         punct = {".", "?", "!"}
         corpus = preprocess()
+        trigrams = {" ".join(corpus[i:i+3]) for i in range(len(corpus)-2)}
         sentences = [sentence for sentence in reply.split('\n') if len(sentence)]
 
         if len(sentences) != 10:
@@ -41,6 +43,10 @@ class TextGeneratorTests(StageTest):
                     return CheckResult.wrong("Sentences should contain only words from the corpus!")
                 if token[-1] in punct and 4 < i+1 < len(sent):
                     return CheckResult.wrong("If a sentence is longer than 5 tokens, it should end at the first sentence ending punctuation.")
+            for i in range(len(sent)-2):
+                trigram = " ".join(sent[i:i+3])
+                if trigram not in trigrams:
+                    return CheckResult.wrong("Pseudo-sentences should entirely consist of trigrams from the corpus.")
         return CheckResult.correct()
 
 
