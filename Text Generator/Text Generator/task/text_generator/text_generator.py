@@ -3,6 +3,7 @@ from nltk.tokenize import regexp_tokenize
 import nltk
 from collections import defaultdict
 from collections import Counter
+import random
 
 
 class Solution:
@@ -38,18 +39,37 @@ class Solution:
             result[head][tail] += 1
         return result
 
+    def get_random_token(self):
+        return random.choice(self.token_list)
+
+    def get_next_random_token(self, prev: str):
+        most_common = self.model[prev].most_common()
+        population = [w for w, _ in most_common]
+        weights = [cnt for _, cnt in most_common]
+        return random.choices(population, weights, k=1)[0]
+
+    def get_random_sentence(self, n: int):
+        word = self.get_random_token()
+        result = [word]
+        for _ in range(n - 1):
+            word = self.get_next_random_token(word)
+            result.append(word)
+        return ' '.join(result)
+
 
 filename = input()
 # filename = '../corpus.txt'
 sol = Solution(filename)
-model = sol.model
-while True:
-    s = input().strip()
-    if 'exit' == s:
-        break
-    print(f'Head: {s}')
-    if s not in model:
-        print('The requested word is not in the model. Please input another word.')
-    else:
-        for w, cnt in model[s].most_common():
-            print(f'Tail: {w}\tCount: {cnt}')
+# model = sol.model
+# while True:
+#     s = input().strip()
+#     if 'exit' == s:
+#         break
+#     print(f'Head: {s}')
+#     if s not in model:
+#         print('The requested word is not in the model. Please input another word.')
+#     else:
+#         for w, cnt in model[s].most_common():
+#             print(f'Tail: {w}\tCount: {cnt}')
+for _ in range(10):
+    print(sol.get_random_sentence(10))
