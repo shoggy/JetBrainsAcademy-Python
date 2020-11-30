@@ -19,10 +19,10 @@ stages:
   is_completed: true
 - id: 718
   step: 11143
-  is_completed: false
+  is_completed: true
 - id: 719
   step: 11144
-  is_completed: false
+  is_completed: true
 topics:
   0:
   - title: Files

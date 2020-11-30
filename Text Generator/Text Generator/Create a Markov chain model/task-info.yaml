@@ -47920,12 +47920,9 @@ files:
     The Queen in the North!
     The Queen in the North! The Queen in the North! The Queen in the North! The Queen in the North! The Queen in the North!
   learner_created: false
-- name: text_generator/__init__.py
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/134/stages/716/implement#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Sun, 29 Nov 2020 16:02:39 UTC
-record: -1
+record: 3
