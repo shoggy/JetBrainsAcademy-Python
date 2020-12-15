@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def check():
+        ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10502#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Mon, 14 Dec 2020 17:27:17 UTC
+record: -1
