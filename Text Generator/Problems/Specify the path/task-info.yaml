@@ -2,11 +2,7 @@ type: code
 files:
 - name: main.py
   visible: true
-  text: |-
-    import re
-
-    path = 'C:\tasks\Hyperskill\new'
-  learner_created: false
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/9760#comment
 status: Solved
 feedback:

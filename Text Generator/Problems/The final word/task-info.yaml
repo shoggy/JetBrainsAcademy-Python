@@ -2,12 +2,7 @@ type: code
 files:
 - name: main.py
   visible: true
-  text: |-
-    import re
-
-
-    regex = ''
-  learner_created: false
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/10149#comment
 status: Solved
 feedback:

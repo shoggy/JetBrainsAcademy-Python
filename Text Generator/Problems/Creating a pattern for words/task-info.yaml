@@ -2,7 +2,7 @@ type: code
 files:
 - name: main.py
   visible: true
-  learner_created: false
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/10371#comment
 status: Solved
 feedback:

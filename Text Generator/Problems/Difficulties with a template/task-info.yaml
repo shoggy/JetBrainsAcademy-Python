@@ -2,14 +2,7 @@ type: code
 files:
 - name: main.py
   visible: true
-  text: |-
-    import re
-
-
-    sentence = 'Do I like cats? Yes!!'
-    template = 'Do I like cats/? Yes/!!'
-    tem = re.match(template, sentence)
-  learner_created: false
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11116#comment
 status: Solved
 feedback:
