@@ -1,8 +1,9 @@
 # Write your code here
+import argparse
 import io
+import json
 import os
 import random
-import json
 
 
 def log_print(s: str):
@@ -57,15 +58,17 @@ def remove_card():
         log_print(f'Can\'t remove "{term}": there is no such card.')
 
 
-def export_to():
-    file_name = log_input('File name:\n')
+def export_to(file_name=None):
+    if file_name is None:
+        file_name = log_input('File name:\n')
     with open(file_name, mode='w', encoding='utf-8') as fout:
         json.dump(cards, fout)
         log_print(f'{len(cards)} cards have been saved.')
 
 
-def import_from():
-    file_name = log_input('File name:\n')
+def import_from(file_name=None):
+    if file_name is None:
+        file_name = log_input('File name:\n')
     if os.path.exists(file_name) and os.path.isfile(file_name) and os.access(file_name, os.R_OK):
         with open(file_name, mode='r', encoding='utf-8') as fin:
             imported = json.load(fin)
@@ -100,6 +103,14 @@ def reset_stats():
 log = io.StringIO()
 cards = dict()
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--import_from')
+parser.add_argument('--export_to')
+args = parser.parse_args()
+
+if args.import_from:
+    import_from(args.import_from)
+
 while True:
     action = log_input('Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):\n')
     if action == 'add':
@@ -121,3 +132,6 @@ while True:
         hardest_card()
     elif action == 'reset stats':
         reset_stats()
+
+if args.export_to:
+    export_to(args.export_to)
