@@ -1,0 +1,18 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+    a = int(input())
+    b = int(input())
+    c = int(input())
+    d = int(input())
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/11211#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 19 Dec 2020 16:21:31 UTC
+record: -1
