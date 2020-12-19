@@ -2,22 +2,32 @@
 import json
 from collections import defaultdict
 
-stops_types = defaultdict(set)  # stop_type[SOF] => stop_name
-bus_stops = defaultdict(list)  # bus_id => stop_type
-stop_bus = defaultdict(list)
+bus_stops = defaultdict(dict)  # bus_id => stop_type
 data = json.loads(input())
 
 for bus in data:
-    stops_types[bus['stop_type']].add(bus['stop_name'])
-    bus_stops[bus['bus_id']].append(bus['stop_type'])
-    stop_bus[bus['stop_name']].append(bus['bus_id'])
+    bus_stops[bus['bus_id']][bus['stop_id']] = bus
 
-for bus, stop in bus_stops.items():
-    if sum(1 for x in stop if x == 'S') != 1 or sum(1 for x in stop if x == 'F') != 1:
-        print(f'There is no start or end stop for the line: {bus}.')
-        exit()
+linear = dict()
+for k, v in bus_stops.items():
+    res = []
+    stop = next(x for x in v.values() if x['stop_type'] == 'S')
+    while stop['stop_type'] != 'F':
+        res.append(stop)
+        stop = v[stop['next_stop']]
+    res.append(stop)
+    linear[k] = res
 
-transfers = {k: sorted(list(v)) for k, v in stop_bus.items() if len(v) > 1}
-print(f'Start stops: {len(stops_types["S"])} {sorted(list(stops_types["S"]))}')
-print(f'Transfer stops: {len(transfers)} {sorted(list(transfers.keys()))}')
-print(f'Finish stops: {len(stops_types["F"])} {sorted(list(stops_types["F"]))}')
+print('Arrival time test:')
+bad = False
+for k, v in linear.items():
+    m = "0"
+    for x in v:
+        if m >= x['a_time']:
+            print(f'bus_id line {k}: wrong time on station {x["stop_name"]}')
+            bad = True
+            break
+        else:
+            m = x['a_time']
+if not bad:
+    print('OK')
