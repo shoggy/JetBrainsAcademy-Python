@@ -17,11 +17,11 @@ class FieldValidator:
 fields = [
     FieldValidator('bus_id', True, int, lambda _: True),
     FieldValidator('stop_id', True, int, lambda _: True),
-    # FieldValidator('stop_name', True, str, lambda x: re.match(r'[A-Z].*(Road|Avenue|Boulevard|Street)$', x)),
-    FieldValidator('stop_name', True, str, lambda x: re.match(r'.+', x)),
+    FieldValidator('stop_name', True, str, lambda x: re.match(r'[A-Z].*(Road|Avenue|Boulevard|Street)$', x)),
+    # FieldValidator('stop_name', True, str, lambda x: re.match(r'.+', x)),
     FieldValidator('next_stop', True, int, lambda _: True),
     FieldValidator('stop_type', False, str, lambda x: re.match(r'[SOF]?$', x)),
-    FieldValidator('a_time', True, str, lambda x: re.match(r'([01]\d)|(2[0-4]):[0-6]\d$', x)),
+    FieldValidator('a_time', True, str, lambda x: re.match(r'(([01]\d)|(2[0-4])):[0-6]\d$', x)),
 ]
 
 
@@ -45,6 +45,7 @@ for bus in data:
         if not validate(field, bus):
             errors[field] += 1
 
-print(f'Type and required field validation: {sum(errors.values())} errors')
+print(f'Format validation: {sum(errors.values())} errors')
 for field in fields:
-    print(f'{field.name}: {errors[field]}')
+    if field.t == str:
+        print(f'{field.name}: {errors[field]}')
