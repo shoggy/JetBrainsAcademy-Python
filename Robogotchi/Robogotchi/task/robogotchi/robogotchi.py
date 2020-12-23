@@ -20,21 +20,60 @@ def numbers(user: int) -> None:
         print("It's a draw!")
 
 
-results = Counter()
-while True:
-    cmd = input('What is your number?\n')
-    if cmd == 'exit game':
-        break
-    if not re.match(r'^-?\d.+$', cmd):
-        print('A string is not a valid input!')
-        continue
-    cmd = int(cmd)
-    if cmd < 0:
-        print("The number can't be negative!")
-    elif cmd > 1_000_000:
-        print("Invalid input! The number can't be bigger than 1000000")
+def prenumber():
+    while True:
+        cmd = input('What is your number?\n')
+        if cmd == 'exit game':
+            break
+        if not re.match(r'^-?\d.+$', cmd):
+            print('A string is not a valid input!')
+            continue
+        cmd = int(cmd)
+        if cmd < 0:
+            print("The number can't be negative!")
+        elif cmd > 1_000_000:
+            print("Invalid input! The number can't be bigger than 1000000")
+        else:
+            numbers(cmd)
+
+
+def rps(user: int):
+    robot = random.randint(0, len(rps_obj) - 1)
+    print(f'robot chose {rps_obj[robot]}')
+    if robot == user:
+        print("It's a draw!")
+        results['D'] += 1
+    elif (user + 1) % len(rps_obj) == robot:
+        print('The robot won!')
+        results['R'] += 1
     else:
-        numbers(cmd)
+        print('You won!')
+        results['U'] += 1
+
+
+def pre_rps():
+    while True:
+        cmd = input('What is your move?\n')
+        if cmd == 'exit game':
+            break
+        if cmd not in rps_obj:
+            print('No such option! Try again!')
+        else:
+            rps(rps_obj.index(cmd))
+
+
+rps_obj = ["paper", "scissors", "rock"]
+results = Counter()
+cmd = input('Which game would you like to play?\n')
+while True:
+    if cmd == 'Rock-paper-scissors':
+        pre_rps()
+        break
+    elif cmd == 'Numbers':
+        prenumber()
+        break
+    else:
+        cmd = input('Please choose a valid option: Numbers or Rock-paper-scissors?\n')
 
 print(f'You won: {results["U"]},\n'
       f'The robot won: {results["R"]},\n'
