@@ -90,21 +90,9 @@ files:
     if __name__ == '__main__':
         WebScraperTest('webscraper.scraper').run_tests()
   learner_created: false
-- name: Plan_to_create_UK_version_of_DARPA_lacks_detail_say_researchers.txt
-  visible: true
-  learner_created: true
-- name: Can_COVID_spread_from_frozen_wildlife_Scientists_probe_pandemic_origins.txt
-  visible: true
-  learner_created: true
-- name: JJs_singledose_COVID_vaccine_raises_hopes_for_faster_rollout.txt
-  visible: true
-  learner_created: true
-- name: Major_physics_society_won’t_meet_in_cities_with_racist_policing_record.txt
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/145/stages/784/implement#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Mon, 01 Mar 2021 19:22:52 UTC
-record: -1
+record: 4
