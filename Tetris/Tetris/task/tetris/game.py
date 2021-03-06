@@ -29,6 +29,10 @@ class Figure:
         self.rotation = (self.rotation + 1) % len(self.points_list)
 
 
+class TetrisException(Exception):
+    pass
+
+
 class Tetris:
 
     @staticmethod
@@ -60,8 +64,13 @@ class Tetris:
 
     def new_figure(self, letter) -> None:
         self.figure = Figure(letter, 0, (self.width - figure_size) // 2)
+        if self.intersects():
+            raise TetrisException()
+        print(self)
 
     def intersects(self) -> bool:
+        if self.figure is None:
+            return False
         for row, col in Tetris.iterate_figure_points(self.figure):
             if not (0 <= row < self.height) or \
                     not (0 <= col < self.width) or \
@@ -69,20 +78,18 @@ class Tetris:
                 return True
         return False
 
-    def intersects_last_row(self) -> bool:
+    def intersects_next_down(self) -> bool:
         for row, col in Tetris.iterate_figure_points(self.figure):
-            if row == self.height - 1:
+            if row + 1 >= self.height or self.field[row + 1][col]:
                 return True
         return False
 
     def freeze(self) -> None:
+        if self.figure is None:
+            return
         for row, col in Tetris.iterate_figure_points(self.figure):
             self.field[row][col] = 1
-        # self.remove_full_lines()
-        # self.new_figure(random.choice(list(segs.keys())))
-        # if self.intersects():
-        #     # gameover
-        #     pass
+        self.figure = None
 
     def remove_full_lines(self) -> None:
         i = self.height - 1
@@ -92,6 +99,7 @@ class Tetris:
                 self.field.insert(0, [0] * self.width)
             else:
                 i -= 1
+        print(self)
 
     def move_horizontal(self, d_col):
         old_col = self.figure.col
@@ -106,12 +114,16 @@ class Tetris:
         self.move_horizontal(1)
 
     def move_down(self):
-        self.figure.row += 1
-        if self.intersects():
-            self.figure.row -= 1
-            self.freeze()
-        if self.intersects_last_row():
-            self.freeze()
+        if self.intersects_next_down():
+            if self.figure.row == 0:
+                print(self)
+                raise TetrisException('full height')
+            else:
+                self.freeze()
+        else:
+            self.figure.row += 1
+            if self.intersects():
+                self.figure.row -= 1
 
     def rotate(self):
         old_rotation = self.figure.rotation
@@ -120,29 +132,35 @@ class Tetris:
             self.figure.rotation = old_rotation
 
     def make_move(self, cmd):
-        if cmd == 'left':
-            self.move_left()
-            self.move_down()
-        elif cmd == 'right':
-            self.move_right()
-            self.move_down()
-        elif cmd == 'down':
-            self.move_down()
-        elif cmd == 'rotate':
-            self.rotate()
-            self.move_down()
+        if self.figure is not None:
+            if cmd == 'left':
+                self.move_left()
+                self.move_down()
+            elif cmd == 'right':
+                self.move_right()
+                self.move_down()
+            elif cmd == 'down':
+                self.move_down()
+            elif cmd == 'rotate':
+                self.rotate()
+                self.move_down()
         print(self)
 
 
-letter = input()
 [cols, rows] = [int(x) for x in input().split()]
 game = Tetris(rows, cols)
 print(game)
-game.new_figure(letter)
-print(game)
 while True:
     cmd = input()
-    if cmd in ('left', 'right', 'down', 'rotate'):
-        game.make_move(cmd)
-    elif cmd == 'exit':
+    try:
+        if cmd == 'piece':
+            game.new_figure(input())
+        elif cmd in ('left', 'right', 'down', 'rotate'):
+            game.make_move(cmd)
+        elif cmd == 'break':
+            game.remove_full_lines()
+        elif cmd == 'exit':
+            break
+    except TetrisException:
+        print('Game Over!')
         break
