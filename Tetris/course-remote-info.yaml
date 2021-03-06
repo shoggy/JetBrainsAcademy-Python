@@ -3,20 +3,20 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/464418/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Sat, 06 Mar 2021 12:27:45 UTC
+update_date: Sat, 06 Mar 2021 17:28:16 UTC
 stages:
 - id: 791
   step: 11891
   is_completed: true
 - id: 792
   step: 11892
-  is_completed: false
+  is_completed: true
 - id: 793
   step: 11893
-  is_completed: false
+  is_completed: true
 - id: 794
   step: 11894
-  is_completed: false
+  is_completed: true
 topics:
   0:
   - title: Introduction to matrices
