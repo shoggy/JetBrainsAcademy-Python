@@ -44,13 +44,12 @@ class Tetris:
         super().__init__()
         self.height = height
         self.width = width
-        self.field = [[0] * width] * height
+        self.field = [[0] * width for _ in range(height)]
         self.figure: Figure = None
 
     def __str__(self) -> str:
         output = StringIO()
         figure_points = set(Tetris.iterate_figure_points(self.figure)) if self.figure else set()
-        figure_points = set(map(lambda x: (x[0], x[1] % self.width), figure_points))
         for row_idx, row in enumerate(self.field):
             print(' '.join('0' if elem or (row_idx, col_idx) in figure_points else '-'
                            for col_idx, elem in enumerate(row)),
@@ -62,8 +61,43 @@ class Tetris:
     def new_figure(self, letter) -> None:
         self.figure = Figure(letter, 0, (self.width - figure_size) // 2)
 
+    def intersects(self) -> bool:
+        for row, col in Tetris.iterate_figure_points(self.figure):
+            if not (0 <= row < self.height) or \
+                    not (0 <= col < self.width) or \
+                    self.field[row][col]:
+                return True
+        return False
+
+    def intersects_last_row(self) -> bool:
+        for row, col in Tetris.iterate_figure_points(self.figure):
+            if row == self.height - 1:
+                return True
+        return False
+
+    def freeze(self) -> None:
+        for row, col in Tetris.iterate_figure_points(self.figure):
+            self.field[row][col] = 1
+        # self.remove_full_lines()
+        # self.new_figure(random.choice(list(segs.keys())))
+        # if self.intersects():
+        #     # gameover
+        #     pass
+
+    def remove_full_lines(self) -> None:
+        i = self.height - 1
+        while i >= 0:
+            if all(self.field[i]):
+                del self.field[i]
+                self.field.insert(0, [0] * self.width)
+            else:
+                i -= 1
+
     def move_horizontal(self, d_col):
-        self.figure.col = (self.figure.col + d_col + self.width) % self.width
+        old_col = self.figure.col
+        self.figure.col += d_col
+        if self.intersects():
+            self.figure.col = old_col
 
     def move_left(self):
         self.move_horizontal(-1)
@@ -73,9 +107,17 @@ class Tetris:
 
     def move_down(self):
         self.figure.row += 1
+        if self.intersects():
+            self.figure.row -= 1
+            self.freeze()
+        if self.intersects_last_row():
+            self.freeze()
 
     def rotate(self):
+        old_rotation = self.figure.rotation
         self.figure.rotate()
+        if self.intersects():
+            self.figure.rotation = old_rotation
 
     def make_move(self, cmd):
         if cmd == 'left':
@@ -89,7 +131,7 @@ class Tetris:
         elif cmd == 'rotate':
             self.rotate()
             self.move_down()
-        print(game)
+        print(self)
 
 
 letter = input()
