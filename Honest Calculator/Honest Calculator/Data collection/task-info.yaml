@@ -42,6 +42,9 @@ files:
   text: |
     # write your code here
   learner_created: false
-feedback_link: https://hyperskill.org/projects/208/stages/1039/implement#comment
-status: Unchecked
-record: -1
+feedback_link: https://hyperskill.org/learn/step/15810#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Thu, 29 Sep 2022 12:24:13 UTC
+record: 1
