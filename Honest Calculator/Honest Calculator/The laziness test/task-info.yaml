@@ -59,5 +59,8 @@ files:
         HonestCalc().run_tests()
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/15813#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Thu, 29 Sep 2022 14:30:34 UTC
 record: -1

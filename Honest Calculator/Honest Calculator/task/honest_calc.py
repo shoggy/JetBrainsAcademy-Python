@@ -5,6 +5,27 @@ msg_2 = "Yes ... an interesting math operation. You've slept through all classes
 msg_3 = "Yeah... division by zero. Smart move..."
 msg_4 = "Do you want to store the result? (y / n):"
 msg_5 = "Do you want to continue calculations? (y / n):"
+msg_6 = " ... lazy"
+msg_7 = " ... very lazy"
+msg_8 = " ... very, very lazy"
+msg_9 = "You are"
+
+
+def is_one_digit(v: float) -> bool:
+    return -10 < v < 10 and v.is_integer()
+
+
+def check(a, b, op):
+    msg = ''
+    if is_one_digit(a) and is_one_digit(b):
+        msg = msg + msg_6
+    if (a == 1 or b == 1) and op == '*':
+        msg = msg + msg_7
+    if (a == 0 or b == 0) and (op in {'*', '+', '-'}):
+        msg = msg + msg_8
+    if msg != '':
+        msg = msg_9 + msg
+        print(msg)
 
 
 def get_num(s: str):
@@ -62,6 +83,7 @@ while True:
     if oper not in {'+', '-', '*', '/'}:
         print(msg_2)
         continue
+    check(x_num, y_num, oper)
     try:
         res = operate(x_num, y_num, oper)
     except ValueError:
