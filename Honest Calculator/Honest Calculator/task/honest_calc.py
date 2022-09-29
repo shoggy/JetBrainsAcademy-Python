@@ -9,6 +9,13 @@ msg_6 = " ... lazy"
 msg_7 = " ... very lazy"
 msg_8 = " ... very, very lazy"
 msg_9 = "You are"
+msg_10 = "Are you sure? It is only one digit! (y / n)"
+msg_11 = "Don't be silly! It's just one number! Add to the memory? (y / n)"
+msg_12 = "Last chance! Do you really want to embarrass yourself? (y / n)"
+
+
+def get_msg(i: int) -> str:
+    return globals().get('msg_' + str(i))
 
 
 def is_one_digit(v: float) -> bool:
@@ -55,8 +62,22 @@ def ask(question: str) -> bool:
             return False
 
 
-def ask_to_store() -> bool:
-    return ask(msg_4)
+def ask_to_store(res: float) -> bool:
+    if ask(msg_4):
+        if not is_one_digit(res):
+            return True
+        msg_index = 10
+        while True:
+            print(get_msg(msg_index))
+            answer = input()
+            if answer == 'y':
+                if msg_index < 12:
+                    msg_index += 1
+                    continue
+                else:
+                    return True
+            elif answer == 'n':
+                return False
 
 
 def ask_to_continue() -> bool:
@@ -90,7 +111,7 @@ while True:
         print(msg_3)
         continue
     print(res)
-    if ask_to_store():
+    if ask_to_store(res):
         memory = res
     if ask_to_continue():
         continue
