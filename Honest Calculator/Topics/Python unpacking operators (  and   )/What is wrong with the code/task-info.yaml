@@ -1,0 +1,16 @@
+type: code
+custom_name: What is wrong with the code?
+files:
+- name: main.py
+  visible: true
+  text: |-
+    phone = input()
+    phone = sign, code, *rest
+    print('Country code:', code)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15410#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Fri, 30 Sep 2022 08:29:49 UTC
+record: -1

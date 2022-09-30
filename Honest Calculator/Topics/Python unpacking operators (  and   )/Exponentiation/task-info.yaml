@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    info = input().split(', ')
+    # your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15408#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Fri, 30 Sep 2022 08:24:45 UTC
+record: -1

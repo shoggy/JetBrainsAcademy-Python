@@ -1,0 +1,129 @@
+<h2>Python unpacking operators (* and **)</h2>
+<html><body><p>Today, we will cover how to unpack something, and how one <code class="language-python">*</code> and two <code class="language-python">**</code> asterisks will help us with this. The chances are you have encountered the asterisks in Python before. They usually perform mathematical operations, <code class="language-python">*</code> stands for multiplication, and <code class="language-python">**</code> is used for exponentiation. However, these two operators, also known as <strong>starred expressions</strong>, have another application for iterable object unpacking. Let's discuss it at length.</p>
+<h5 id="what-is-unpacking">What is unpacking?</h5>
+<p>Even though you may have never seen this term before, you have encountered <strong>packing</strong>. Take a look at the following example:</p>
+<pre><code class="language-python">my_tuple = 'hello', 'world', 123, [1, 2, 3]</code></pre>
+<p>The values in the code snippet above are "packed" together in a tuple. The reverse operation is called <strong>unpacking</strong>, where each variable is assigned to the corresponding tuple item. The variables for unpacking are on the left side of the assignment operator <code class="language-python">=</code>:</p>
+<pre><code class="language-python">a, b, c, d = my_tuple
+print(a)  # hello
+print(b)  # world
+print(c)  # 123
+print(d)  # [1, 2, 3]</code></pre>
+<p>Remember that the number of variables on the left should be equal to the number of the elements on the right. Otherwise, it raises a <code class="language-python">ValueError</code>:</p>
+<pre><code class="language-python">a, b, c = 'hello', 'world', 123, [1, 2, 3]
+# ValueError: too many values to unpack (expected 3)
+
+a, b, c, d, e = 'hello', 'world', 123, [1, 2, 3]
+# ValueError: not enough values to unpack (expected 5, got 4)</code></pre>
+<p>Packing and unpacking can be performed not only with tuples but with any other iterables<em>: </em><strong>lists</strong>, <strong>sets</strong>, <strong>tuples</strong>, <strong>strings</strong>, and <strong>dictionaries</strong>.</p>
+<p>You may be wondering, why asterisks? The answer is straightforward — they make our coding life a little bit easier. Let's have a look!</p>
+<h5 id="the-single-asterisk-operator">The single asterisk operator</h5>
+<p>The single asterisk operator unpacks all the iterable variables that haven't been assigned to any variable. Let's look at an example. Suppose you want to extract the first and the last item of a list without indexing:</p>
+<pre><code class="language-python">start, *middle, end = [1, 2, 3, 4, 5]
+print(start)   # 1
+print(end)     # 5
+print(middle)  # [2, 3, 4]</code></pre>
+<p>As you can see, the "unused" items have been automatically assigned to the variable marked by an asterisk. This snippet is similar to the one below:</p>
+<pre><code class="language-python">my_list = [1, 2, 3, 4, 5]
+start = my_list[0]
+end = my_list[-1]
+middle = my_list[1:len(my_list)-1]
+
+print(start)   # 1
+print(end)     # 5
+print(middle)  # [2, 3, 4]</code></pre>
+<p>This trick also works with lists of two items:</p>
+<pre><code class="language-python">start, *middle, end = [1, 2]
+print(start)   # 1
+print(end)     # 2
+print(middle)  # []</code></pre>
+<p>In the example above, the <code class="language-python">middle</code> variable ends up being an empty list. There are no values that can be assigned to it, as the first <code class="language-python">start</code> variable is assigned to <code class="language-python">1</code>, and the <code class="language-python">end</code> variable is assigned to the last item on the list, <code class="language-python">2</code>.</p>
+<p>One more thing. If for some reason you want to unpack all of the items in an iterable into a single variable, you need to convert it to a list or a tuple first. A simple trailing comma will do the trick; it will make our variable a list that can take as many arguments as you want:</p>
+<pre><code class="language-python">*my_range = range(5)
+# SyntaxError: starred assignment target must be in a list or tuple
+
+*my_range, = range(5) 
+# [0, 1, 2, 3, 4]</code></pre>
+<h5 id="the-purpose-of-the-single-asterisk">The purpose of the single asterisk</h5>
+<p>Why do we need it? When working with data, you sometimes need to split a sequence into "first-rest" or "last-rest" pairs. For instance, your data can contain row numbers as the first element, so you would want to separate them into different data structures. Using the <code class="language-python">*</code> operator keeps the code clean and compact. Compare the two snippets below:</p>
+<pre><code class="language-python">first, rest = sequence[0], sequence[1:]  # using indexing
+first, *rest = sequence                  # using unpacking
+
+# you can do the same to obtain the last element and all others
+rest, last = sequence[:-1], sequence[-1]
+*rest, last = sequence</code></pre>
+<p>In the same way, you can unpack iterable items when passing them to a function. Suppose you have a list of arbitrary numbers and a function that takes three numbers as arguments and returns the result of their multiplication:</p>
+<pre><code class="language-python">nums = [1, 2, 3]
+
+def multiply(num_1, num_2, num_3):
+    return num_1 * num_2 * num_3</code></pre>
+<p>Instead of having to manually pass each argument to a function using indexing, you can simply unpack them with <code class="language-python">*</code> operator:</p>
+<pre><code class="language-python"># use indexing 
+multiply(nums[0], nums[1], nums[2])  # 6
+
+# use unpacking
+multiply(*nums)  # 6
+</code></pre>
+<p>Looks pretty neat, right? Remember that the number of arguments must still be equal to the number of elements in an iterable object.</p>
+<p>As you may already know, Python includes some functions that can take an unlimited number of arguments. Take the built-in <code class="language-python">print()</code> or <code class="language-python">zip()</code> functions. Or any other functions that you decide to implement manually. Have a look at the following examples:</p>
+<pre><code class="language-python">nums = [1, 2, 3]
+print(*nums)  # 1 2 3
+
+# the code above is equal to
+print(nums[0], nums[1], nums[2])  # 1 2 3</code></pre>
+<p>We can also print the elements from several iterable objects:</p>
+<pre><code class="language-python">nums = [1, 2, 3]
+more_nums = [4, 5, 6, 7]
+print(*nums, *more_nums) 
+# 1 2 3 4 5 6 7</code></pre>
+<p>Moreover, we can join multiple lists together:</p>
+<pre><code class="language-python">nums = [1, 2, 3]
+more_nums = [4, 5, 6, 7]
+all_nums = [*nums, *more_nums]
+print(all_nums)
+# [1, 2, 3, 4, 5, 6, 7]</code></pre>
+<p>Even though we have performed the above operations mostly on tuples and lists, you can also do the same with sets and strings. We've also mentioned unpacking dictionaries, haven't we? Unlike others, dictionaries are stored in <strong>key-value pairs</strong>. What happens if we try to unpack them with the <code class="language-python">*</code> operator?</p>
+<pre><code class="language-python">my_dict = {'apple': 1, 'banana': 2, 'pear': 3}
+print(*my_dict)
+# apple banana pear</code></pre>
+<p>Note how it prints only the keys of the dictionary without values.</p>
+<p></p><div class="alert alert-primary">To unpack dictionary keys, values, or key-value pairs, you can use the <code class="language-python">*</code> operator together with dictionary operations <code class="language-python">dict.keys()</code>, <code class="language-python">dict.values()</code> and <code class="language-python">dict.items()</code>.</div><p></p>
+<h5 id="the-double-asterisk-operator">The double-asterisk operator</h5>
+<p>While the single-asterisk operator unpacks lists, tuples, strings, and sets, the double-asterisk operator can unpack dictionaries. Unfortunately, dictionaries cannot be unpacked in the same way as lists and tuples. The code below will result in an error:</p>
+<pre><code class="language-python">my_dict = {'apple': 1, 'banana': 2, 'pear': 3}
+start, **middle, end = my_dict
+# SyntaxError: invalid syntax</code></pre>
+<p>Nevertheless, we can still use <code class="language-python">**</code> to do any dictionary operation.</p>
+<p>Let's assume we want to define a function that will return the sum of dictionary values. We can do it like this:</p>
+<pre><code class="language-python">my_dict = {'apple': 1, 'banana': 2, 'pear': 3}
+
+def fruit_sum(apple, banana, pear):
+  return apple + banana + pear
+
+print(fruit_sum(**my_dict)) # 6</code></pre>
+<p>Keep in mind that on defining a function, the function arguments must have the same name as those in a dictionary.</p>
+<p>Similarly, the double asterisk can merge several dictionaries:</p>
+<pre><code class="language-python">dict_1 = {'a': 1, 'b': 2, 'c': 3}
+dict_2 = {'one': 'two', 'three': 'four'}
+
+dict_3 = {**dict_1, **dict_2}
+# {'a': 1, 'b': 2, 'c': 3, 'one': 'two', 'three': 'four'}</code></pre>
+<p>You can merge not only multiple dictionaries but also add extra key-value pairs to the existing ones. For instance:</p>
+<pre><code class="language-python">my_dict = {'apple': 1, 'banana': 2, 'pear': 3}
+my_dict_updated = {**my_dict, 'strawberry': 4}
+print(my_dict_updated)
+# {'apple': 1, 'banana': 2, 'pear': 3, 'strawberry': 4}</code></pre>
+<p>Or even create a copy of a dictionary and update its values at the same time:</p>
+<pre><code class="language-python">my_dict = {'apple': 1, 'banana': 2, 'pear': 3}
+my_dict_copy = {**my_dict, 'apple': 100}
+print(my_dict_copy)
+# {'apple': 100, 'banana': 2, 'pear': 3}</code></pre>
+<h5 id="conlusion">Conсlusion</h5>
+<p>In this topic, we have covered a very powerful tool — the unpacking operators. Here are some crucial things for take-away:</p>
+<ul>
+<li>A single asterisk <code class="language-python">*</code> unpacks items from lists, tuples, sets, and strings;</li>
+<li>A double asterisk <code class="language-python">**</code> unpacks dictionaries;</li>
+<li>Using a single asterisk on a dictionary will unpack only dictionary keys;</li>
+<li>You can pass all iterable items to a function with the help of unpacking operators;</li>
+<li>You can merge and update iterables using the starred expressions.</li>
+</ul></body></html>
