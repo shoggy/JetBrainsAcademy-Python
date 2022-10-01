@@ -67,6 +67,39 @@ def get_dups_by_hash(file_paths: list[str]):
     return t
 
 
+def ask_if_want_to_delete_dups() -> bool:
+    msg = "Delete files?\n"
+    available_opts = {'yes', 'no'}
+    while True:
+        answer = input(msg)
+        if answer in available_opts:
+            return answer == 'yes'
+        else:
+            print('Wrong option')
+
+
+def ask_file_numbers_to_delete(n: int) -> list[int]:
+    msg = "Enter file numbers to delete:\n"
+    while True:
+        answer = input(msg)
+        try:
+            file_nums = set(int(i) for i in answer.split(' '))
+            if len(file_nums) > 0 and max(file_nums) <= n:
+                return list(file_nums)
+        except:
+            print('Wrong option')
+
+
+def delete_files_and_count_size(dupd_files_list: list[tuple], file_nums_to_delete: list[int]) -> int:
+    freed_size = 0
+    for delete_file_num in file_nums_to_delete:
+        file_num = delete_file_num - 1
+        file_description = dupd_files_list[file_num]
+        freed_size += file_description[1]
+        os.remove(file_description[0])
+    return freed_size
+
+
 def main():
     root = get_root_dir()
     if root is None:
@@ -88,8 +121,13 @@ def main():
                 for hash_code, file_paths in dups.items():
                     print(f"Hash: {hash_code}")
                     for file_path in file_paths:
-                        dupd_files_list.append(file_path)
+                        dupd_files_list.append((file_path, file_size))
                         print(f"{len(dupd_files_list)}. {file_path}")
+        is_delete_dups = ask_if_want_to_delete_dups()
+        if is_delete_dups:
+            file_nums_to_delete = ask_file_numbers_to_delete(len(dupd_files_list))
+            freed_size = delete_files_and_count_size(dupd_files_list, file_nums_to_delete)
+            print(f"Total freed up space: {freed_size} bytes")
 
 
 if __name__ == '__main__':
