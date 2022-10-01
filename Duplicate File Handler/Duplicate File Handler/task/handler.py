@@ -1,5 +1,7 @@
 # write your code here
 import argparse
+import hashlib
+import itertools
 import os
 from collections import defaultdict, OrderedDict
 
@@ -30,6 +32,16 @@ def ask_is_descending_option() -> bool:
             return choice == '1'
 
 
+def ask_if_want_to_find_dups() -> bool:
+    msg = "Check for duplicates?\n"
+    available_opts = {'yes', 'no'}
+    answer = input(msg)
+    while answer not in available_opts:
+        print('Wrong option')
+        answer = input(msg)
+    return answer == 'yes'
+
+
 def walk_dirs(root: str, filter_ext: str):
     files_map = defaultdict(list)
     for root, dirs, files in os.walk(root):
@@ -40,6 +52,21 @@ def walk_dirs(root: str, filter_ext: str):
     return {k: v for k, v in files_map.items() if len(v) > 1}
 
 
+def get_hash(file_path: str):
+    hash_md5 = hashlib.md5()
+    with open(file_path, mode="rb") as fis:
+        for chunk in iter(lambda: fis.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+
+def get_dups_by_hash(file_paths: list[str]):
+    grouped = {k: list(v) for k, v in itertools.groupby(sorted(file_paths, key=get_hash), get_hash)}
+    # pprint.pprint(grouped)
+    t = {k: v for k, v in grouped.items() if len(v) > 1}
+    return t
+
+
 def main():
     root = get_root_dir()
     if root is None:
@@ -47,9 +74,22 @@ def main():
         exit()
     file_map = walk_dirs(root, get_file_format())
     is_desc = ask_is_descending_option()
+    # dict<size:int, list<str>>
     file_map = OrderedDict(sorted(file_map.items(), reverse=is_desc))
     for k, v in file_map.items():
         print(f"{k} bytes", *v, sep='\n')
+    is_find_dups = ask_if_want_to_find_dups()
+    if is_find_dups:
+        dupd_files_list = []
+        for file_size, files_list in file_map.items():
+            dups = get_dups_by_hash(files_list)
+            if len(dups) > 0:
+                print(f"{file_size} bytes", )
+                for hash_code, file_paths in dups.items():
+                    print(f"Hash: {hash_code}")
+                    for file_path in file_paths:
+                        dupd_files_list.append(file_path)
+                        print(f"{len(dupd_files_list)}. {file_path}")
 
 
 if __name__ == '__main__':
