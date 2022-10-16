@@ -1,11 +1,11 @@
 # write your code here
+import argparse
+import os.path
 import re
 from abc import ABC, abstractmethod
 
 APPLICABLE_EMPTY_LINES_BEFORE_CODE = 2
-
 INDENT_MULTIPLIER = 4
-
 MAX_LEN = 79
 
 
@@ -98,7 +98,7 @@ class S006MoreBlankLinesPrecedingCode(LintError):
             return res
 
 
-ERRORS: tuple[LintError] = (
+ERRORS: tuple = (
     S001TooLong(),
     S002IndentationMultiplier(),
     S003UnnecessarySemicolon(),
@@ -108,16 +108,53 @@ ERRORS: tuple[LintError] = (
 )
 
 
-def main():
+def check_file(file_path) -> [tuple[int, LintError]]:
     errors: [tuple[int, LintError]] = []
-    file_path = input()
     with open(file_path, mode="rt", encoding="utf-8") as fin:
         for line_num, line in enumerate(fin, start=1):
             for check in ERRORS:
                 if not check.is_ok(line.rstrip()):
                     errors.append((line_num, check))
+    return errors
+
+
+def print_errors(path, errors):
     for error in errors:
-        print(f"Line {error[0]}: {error[1].describe()}")
+        print(f"{path}: Line {error[0]}: {error[1].describe()}")
+
+
+def get_file_path() -> str:
+    parser = argparse.ArgumentParser(usage="Directory is not specified")
+    parser.add_argument('root_dir', default=None, nargs='?')
+    args = parser.parse_args()
+    root = args.root_dir
+    return root
+
+
+def walk_dirs(root: str) -> list[str]:
+    filelist = []
+    for root, dirs, files in os.walk(root):
+        for name in files:
+            file = os.path.join(root, name)
+            if file.endswith(".py"):
+                filelist.append(file)
+    return sorted(filelist)
+
+
+def main():
+    file_path = get_file_path()
+    if file_path is None:
+        print("Directory is not specified")
+        exit()
+    files = None
+    if os.path.isdir(file_path):
+        files = walk_dirs(file_path)
+    elif os.path.isfile(file_path):
+        files = [file_path, ]
+
+    for f in files:
+        errors = check_file(f)
+        print_errors(f, errors)
 
 
 if __name__ == '__main__':
