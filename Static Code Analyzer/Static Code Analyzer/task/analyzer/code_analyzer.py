@@ -98,6 +98,41 @@ class S006MoreBlankLinesPrecedingCode(LintError):
             return res
 
 
+class S007TooManySpacesAfterConstructionName(LintError):
+
+    def __init__(self, construct_name):
+        super().__init__("S007", f"Too many spaces after '{construct_name}'")
+        self.construct_name = construct_name
+
+    def is_ok(self, line: str) -> bool:
+        pattern = re.compile(r" *\b" + self.construct_name + r"\b( +)(\w+)(\(\w*\))?:")
+        match = pattern.match(line)
+        return match is None \
+               or len(match.group(1)) == 1
+
+
+class S008ClassNameShouldBeCamelCase(LintError):
+    def __init__(self):
+        super().__init__("S008", "Class name class_name should be written in CamelCase")
+
+    def is_ok(self, line: str) -> bool:
+        pattern = re.compile(r" *\bclass\b( +)(\w+)(\(\w*\))?:")
+        match = pattern.match(line)
+        return match is None \
+               or re.match(r"([A-Z][a-z]*)+", match.group(2)) is not None
+
+
+class S009FunctionNameShouldBeSnameCase(LintError):
+    def __init__(self):
+        super().__init__("S009", "Function name function_name should be written in snake_case")
+
+    def is_ok(self, line: str) -> bool:
+        pattern = re.compile(r" *\bdef\b( +)(\w+)(\(\w*\))?:")
+        match = pattern.match(line)
+        return match is None \
+               or re.match(r"_*([a-z]+_?)+_*", match.group(2)) is not None
+
+
 ERRORS: tuple = (
     S001TooLong(),
     S002IndentationMultiplier(),
@@ -105,6 +140,10 @@ ERRORS: tuple = (
     S004LessSpacesBeforeInlineComment(),
     S005ToDoFound(),
     S006MoreBlankLinesPrecedingCode(),
+    S007TooManySpacesAfterConstructionName('class'),
+    S007TooManySpacesAfterConstructionName('def'),
+    S008ClassNameShouldBeCamelCase(),
+    S009FunctionNameShouldBeSnameCase(),
 )
 
 
