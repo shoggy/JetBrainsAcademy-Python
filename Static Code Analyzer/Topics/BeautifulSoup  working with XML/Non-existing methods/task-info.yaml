@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: <code>find()</code>
+- text: <code>find_all()</code>
+- text: <code>get()</code>
+- text: <code>extract_text()</code>
+- text: <code>search_all()</code>
+- text: <code>prettify()</code>
+- text: <code>search()</code>
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/22845#comment
+status: Solved
+record: -1
+local_check: false

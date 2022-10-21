@@ -13,3 +13,4 @@ content:
 - Search in a string
 - Datetime parsing and formatting
 - Time module
+- BeautifulSoup  working with XML

@@ -1,0 +1,18 @@
+type: code
+custom_name: How many fingers do you see?
+files:
+- name: main.py
+  visible: true
+  text: |-
+    from bs4 import BeautifulSoup
+
+    fingers = '<?xmlversion="1.0"encoding="UTF-8"?><fingers><finger><name>Thumb</name><hand>Left</hand></finger><finger><name>Index</name><hand>Left</hand></finger><finger><name>Index</name><hand>Right</hand></finger><finger><name>Middle</name><hand>Right</hand></finger><finger><name>Little</name><hand>Left</hand></finger></fingers>'
+
+    # put your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/13104#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Fri, 21 Oct 2022 17:18:43 UTC
+record: -1
