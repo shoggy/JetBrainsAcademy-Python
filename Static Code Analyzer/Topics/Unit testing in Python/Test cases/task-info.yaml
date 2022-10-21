@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: A test case is a  part of code that we test.
+- text: A test case is a method with assert methods.
+- text: ' A test case is a basic unit of testing.'
+- text: To create a test case we subclass the unittest.TestCase class.
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10798#comment
+status: Solved
+record: -1
+local_check: false

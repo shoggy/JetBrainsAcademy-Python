@@ -1,0 +1,163 @@
+<h2>Boolean operations on arrays</h2>
+<p>In previous topics, we have discussed some array operations. NumPy, however, has many other useful functions. We can use comparison operators such as <code class="language-python">&lt;</code>, <code class="language-python">&gt;</code> or <code class="language-python">==</code> on an array in NumPy, and the result of these operations will be another array with Boolean data type elements. In this topic, we will cover the main aspects of these operations.</p>
+
+<h5 id="integer-comparison" style="text-align: center;">Integer comparison</h5>
+
+<p>You can compare elements in your array with a given integer using the following comparison operators: <code class="language-python">&lt;</code>, <code class="language-python">&gt;</code>, <code class="language-python">&lt;=</code>, <code class="language-python">&gt;=</code>, <code class="language-python">==</code>, <code class="language-python">!=</code>.</p>
+
+<pre><code class="language-python">a1 = np.array([1, 2, 3, 4, 5])
+print(a1 &lt; 4)
+# [ True  True  True False False]</code></pre>
+
+<p>As you can see, the resulting array contains <code class="language-python">True</code> and <code class="language-python">False</code> values. The first three elements are less than 4, so we have three <code class="language-python">True</code> values. The last two elements are bigger, so the two <code class="language-python">False</code> values.</p>
+
+<p>We can use these comparisons with multidimensional arrays as well. Again, each element is compared to an integer, then the <code class="language-python">True</code> or <code class="language-python">False</code> value is returned.</p>
+
+<pre><code class="language-python">a1 = np.array([[11, 22], [33, 44], [55, 66]])
+print(a1 &gt;= 44)
+# [[False False]
+#  [False  True]
+#  [ True  True]]</code></pre>
+
+<p>Other operators are used in the same way.</p>
+
+<h5 id="array-comparison" style="text-align: center;">Array comparison</h5>
+
+<p>Using the operations above, we can compare two arrays as well:</p>
+
+<pre><code class="language-python">a1 = np.array([[12, 23], [16, 40], [15, 16]])
+a2 = np.array([[12, 73], [96, 10], [25, 16]])
+print(a1 &gt;= a2)
+# [[ True False]
+#  [False  True]
+#  [False  True]]</code></pre>
+
+<p>Two arrays must have the same shape or they must be broadcastable for comparisons. In the example below, the second array is broadcastable to the shape of the first one. The comparison is element-wise.</p>
+
+<pre><code class="language-python">a1 = np.array([[12, 23], [16, 40], [15, 76]])
+a2 = np.array([[12, 73]])
+print(a1 &lt; a2)
+# [[False  True]
+#  [False  True]
+#  [False False]]</code></pre>
+
+<p>If arrays don't meet the mentioned requirements, a <code class="language-python">ValueError</code> will be raised.</p>
+
+<pre><code class="language-python">a1 = np.array([[12, 23], [16, 40], [15, 76]])
+a2 = np.array([[12, 73, 3]])
+print(a1 &gt; a2)
+# Traceback (most recent call last):
+#   File "main.py", line 5, in 
+#     print(a1 &gt; a2)
+# ValueError: operands could not be broadcast together with shapes (3,2) (1,3) </code></pre>
+
+<p>The result of the operations with integers and arrays is always a Boolean array.</p>
+
+<h5 id="operators-and-functions-of-comparison" style="text-align: center;">Operators and functions of comparison</h5>
+
+<p>Apart from comparison operators, NumPy has functions that have the same purpose as the operators. The table below shows them in full.</p>
+
+<table align="center">
+	<tbody>
+		<tr>
+			<td style="text-align: center;"><strong>Operators</strong></td>
+			<td style="text-align: center;"><strong>Functions</strong></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">&gt;</code></td>
+			<td style="text-align: center;"><code class="language-python">np.greater()</code></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">&lt;</code></td>
+			<td style="text-align: center;"><code class="language-python">np.less()</code></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">&gt;=</code></td>
+			<td style="text-align: center;"><code class="language-python">np.greater_equal()</code></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">&lt;=</code></td>
+			<td style="text-align: center;"><code class="language-python">np.less_equal()</code></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">==</code></td>
+			<td style="text-align: center;"><code class="language-python">np.equal()</code></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><code class="language-python">!=</code></td>
+			<td style="text-align: center;"><code class="language-python">np.not_equal()</code></td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Have a look at the code below; we use the <code class="language-python">np.greater()</code> function instead of the operator. It is a complete equivalent of the expression <code class="language-python">a1 &gt; a2</code>:</p>
+
+<pre><code class="language-python">a1 = np.array([3, 8, 79])
+a2 = np.array([1, 0, 75])
+print(np.greater(a1, a2))
+# [ True  True  True]</code></pre>
+
+<p>Similarly, you can use an integer for comparison in the functions:</p>
+
+<pre><code class="language-python">a1 = np.array([3, 8, 79])
+print(np.less(a1, 56))
+# [ True  True  False]</code></pre>
+
+<p>The operators are equal to the functions. You can use any of these two approaches in your programs.</p>
+
+<h5 id="logic-functions" style="text-align: center;">Logic functions</h5>
+
+<p>If you want to check whether <em>any</em> or <em>all</em> the values in an array fulfill a specific condition, <code class="language-python">np.any()</code> and <code class="language-python">np.all()</code> can be used:</p>
+
+<pre><code class="language-python">a1 = np.array([3, 8, 9])
+print(np.any(a1 &lt; 4))  # True</code></pre>
+
+<p>The code above checks whether the array contains <em>at least one</em> element that is less than 4. The condition is fulfilled, so the <code class="language-python">True</code> value is returned. If we change <code class="language-python">np.any()</code> to <code class="language-python">np.all()</code>, the <code class="language-python">True</code> value will be obtained if <strong><em>all the elements </em></strong>in the array meet the requirement:</p>
+
+<pre><code class="language-python">a1 = np.array([3, 8, 9])
+print(np.all(a1 &lt; 4))  # False</code></pre>
+
+<p>In the array, the elements "8" and "9" don't fulfill the condition, so the result of <code class="language-python">np.all()</code> is <code class="language-python">False</code>.</p>
+
+<h5 id="selecting-elements-in-an-array" style="text-align: center;">Selecting elements in an array</h5>
+
+<p>Sometimes we may want to select elements in the given array based on some condition. There is the <code class="language-python">np.where()</code> function for that. It accepts a Boolean array. The Boolean array defines a criterion for selecting elements. Let's look at the example:</p>
+
+<pre><code class="language-python">a1 = np.array([19, 92, 53, 44, 35])
+spec = np.where(a1 &gt; 37)
+print(a1[spec])  # [92 53 44]</code></pre>
+
+<p>We need to create an array, then a <code class="language-python">spec</code> variable in which we specify that the elements in <code class="language-python">a1</code> should be greater than 37. To understand this idea better, let's compare the two following lines of the code:</p>
+
+<pre><code class="language-python">print(a1 &gt; 37)  # [False  True  True  True False]
+print(np.where(a1 &gt; 37))  # (array([1, 2, 3]),)</code></pre>
+
+<p><code class="language-python">a &gt; 37</code> returns a <em>list</em> of <code class="language-python">True</code> and <code class="language-python">False</code> values, whereas <code class="language-python">np.where()</code> returns a tuple with the indexes of elements that are <code class="language-python">True</code>. Finally, getting back to our example. We print the <code class="language-python">a1[spec]</code> array; we used the <code class="language-python">spec</code> variable to isolate values that are <code class="language-python">True</code>.</p>
+
+<p>Note that <code class="language-python">np.where()</code> can accept a list of Boolean values right away, instead of an operation that will return a list. It works the same as in the examples above:</p>
+
+<pre><code class="language-python">a1 = np.array([19, 92, 53, 44, 35])
+spec = np.where([False, True, True, True, False])
+print(a1[spec])  # [92 53 44]</code></pre>
+
+<p>We can also apply <code class="language-python">np.where()</code> to two arrays by merging them. Take a look at the following example:</p>
+
+<pre><code class="language-python">num = np.array([1, 2, 3, 4, 5])
+a1 = np.array(['red', 'orange', 'green', 'yellow', 'white'])
+a2 = np.array(['black', 'brown', 'purple', 'pink', 'blue'])
+a3 = np.where(num &gt; 2, a1, a2)
+print(a3)  # ['black' 'brown' 'green' 'yellow' 'white']</code></pre>
+
+<p>Let's discuss how this array was obtained. The first variable, <code class="language-python">num</code>, contains integers from 1 to 5. Then we create two arrays of the same shape, with which we will work further. After that, <code class="language-python">np.where()</code> accepts a Boolean array with <code class="language-python">True</code> and <code class="language-python">False</code> values, obtained from comparing each <code class="language-python">num</code> element with 2. For every <code class="language-python">True</code> value it chooses a corresponding element from <code class="language-python">a1</code>, whereas for every <code class="language-python">False</code> value a corresponding element from <code class="language-python">a2</code> is chosen. That's why the resulting array is <code class="language-python">['black' 'brown' 'green' 'yellow' 'white']</code>: the first two elements in <code class="language-python">num</code> were <code class="language-python">False</code>, the next three were <code class="language-python">True</code>.</p>
+
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+
+<p>In this topic, we have learned:</p>
+
+<ul>
+	<li>how to use comparison operators for arrays;</li>
+	<li>how to check if any or all array values fulfill a condition;</li>
+	<li>how to select specified elements using a condition.</li>
+</ul>
+
+<p>Now let's practice new knowledge so that it will be easier for you to use it in the future.</p>

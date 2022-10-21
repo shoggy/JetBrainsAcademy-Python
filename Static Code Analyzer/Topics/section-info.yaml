@@ -1,0 +1,15 @@
+content:
+- Assert statement
+- Shorthands
+- Regexp sets and ranges
+- Regexp quantifiers
+- Tokenization
+- While loop
+- Boolean operations on arrays
+- Function annotations
+- Unit testing in Python
+- Logging
+- ast module
+- Search in a string
+- Datetime parsing and formatting
+- Time module

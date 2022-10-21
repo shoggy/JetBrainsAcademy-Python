@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: Make your code perform better
+- text: Annotations just have to be there, but they are not important at all
+- text: Help other people understand and improve clarity of your code
+- text: Improve the way you write code
+- text: Help you identify type issues in your code
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15668#comment
+status: Solved
+record: -1
+local_check: false

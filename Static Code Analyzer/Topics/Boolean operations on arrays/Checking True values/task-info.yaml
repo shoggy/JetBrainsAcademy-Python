@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+    a = int(input())
+    b = int(input())
+    c = int(input())
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/11075#comment
+status: Solved
+record: -1

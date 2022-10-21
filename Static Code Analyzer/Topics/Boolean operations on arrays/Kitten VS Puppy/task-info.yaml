@@ -1,0 +1,21 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+    lst_1 = []
+    for i in input().split():
+        lst_1.append(int(i))
+    lst_2 = input().split()
+    lst_3 = input().split()
+
+    # finish the code here, help the Kitten and the Puppy!
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12367#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sun, 09 Oct 2022 06:41:36 UTC
+record: -1
