@@ -1,8 +1,12 @@
 # write your code here
 import argparse
+import ast
+import itertools
 import os.path
 import re
+from _ast import FunctionDef, arg, Name
 from abc import ABC, abstractmethod
+from typing import Any
 
 APPLICABLE_EMPTY_LINES_BEFORE_CODE = 2
 INDENT_MULTIPLIER = 4
@@ -133,6 +137,36 @@ class S009FunctionNameShouldBeSnameCase(LintError):
                or re.match(r"_*([a-z]+_?)+_*", match.group(2)) is not None
 
 
+class AstErrors(LintError):
+    def __init__(self, code: str, message: str):
+        super().__init__(code, message)
+
+    def is_ok(self, line: str) -> bool:
+        pass
+
+
+class Ololo(ast.NodeVisitor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.errors: set[tuple[int, LintError]] = set()
+
+    def visit_FunctionDef(self, node: FunctionDef) -> Any:
+        args: list[list[arg]] = [node.args.args, node.args.posonlyargs, node.args.kwonlyargs]
+        for i in itertools.chain(*args):
+            arg_name = i.arg
+            if re.match(r"_*([a-z]+_?)+_*", arg_name) is None:
+                self.errors.add((i.lineno, AstErrors("S010", f"Argument name '{i.arg}' should be snake_case")))
+        for i in node.args.defaults:
+            if isinstance(i, ast.List):
+                self.errors.add((i.lineno, AstErrors("S012", "Default argument value is mutable")))
+        for nd in ast.iter_child_nodes(node):
+            self.visit(nd)
+
+    def visit_Name(self, node: Name) -> Any:
+        if isinstance(node.ctx, ast.Store) and re.match(r"_*([a-z]+_?)+_*", node.id) is None:
+            self.errors.add((node.lineno, AstErrors("S011", f"Variable '{node.id}' in function should be snake_case")))
+
+
 ERRORS: tuple = (
     S001TooLong(),
     S002IndentationMultiplier(),
@@ -154,6 +188,13 @@ def check_file(file_path) -> [tuple[int, LintError]]:
             for check in ERRORS:
                 if not check.is_ok(line.rstrip()):
                     errors.append((line_num, check))
+
+    with open(file_path, mode="rt", encoding="utf-8") as fin:
+        tree = ast.parse(fin.read())
+    tree_walker = Ololo()
+    tree_walker.visit(tree)
+    extensions = sorted(tree_walker.errors, key=lambda x: x[0])
+    errors.extend(extensions)
     return errors
 
 
